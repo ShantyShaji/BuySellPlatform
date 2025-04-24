@@ -8,7 +8,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   // Function to check if a tab is active
   const isActive = (path) => {
     // Highlight "My Account" by default when on root route
-    if (location.pathname === '/' && path === '/my-account') {
+    if (location.pathname === '/dashboard' && path === '/my-account') {
       return true;
     }
     return location.pathname === path;

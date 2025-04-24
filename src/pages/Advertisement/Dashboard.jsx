@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import Sidebar from '../../common/Sidebar';
-import Navbar from '../../common/Navbar'; // Import Navbar
-import Footer from '../../common/Footer'; // Import Footer
+import Sidebar from '../../components/Sidebar';
+import Navbar from '../../components/Navbar'; // Import Navbar
+import Footer from '../../components/Footer'; // Import Footer
 import { HiMenuAlt3 } from 'react-icons/hi';
 
 const Dashboard = () => {

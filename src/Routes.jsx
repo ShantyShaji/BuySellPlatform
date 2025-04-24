@@ -8,6 +8,7 @@ import PostAd from './pages/Advertisement/PostAd';
 import Register from './pages/Auth/Register';
 import Login from './pages/Auth/Login';
 import AdsDetails from './pages/AdsDetails';
+import Home from './pages/Home';
 
 const AppRoutes = () => {
   return (
@@ -15,11 +16,12 @@ const AppRoutes = () => {
       {/* Public Routes */}
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Home />} />
       <Route path="/ads-details" element={<AdsDetails />} />
 
 
       {/* Protected Routes */}
-      <Route path="/" element={<Dashboard />}>
+      <Route path="/dashboard" element={<Dashboard />}>
         <Route index element={<MyAccount />} /> {/* Default route */}
         <Route path="my-account" element={<MyAccount />} />
         <Route path="profile" element={<Profile />} />

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { LuKeyRound } from "react-icons/lu";
 import { LuMailOpen } from "react-icons/lu";
-import Navbar from '../../common/Navbar';
-import Footer from '../../common/Footer';
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 
 const Login = () => {
     const [formData, setFormData] = useState({

@@ -3,8 +3,8 @@ import { IoLocationOutline } from "react-icons/io5";
 import { SlCalender } from "react-icons/sl";
 import { FaPhoneAlt } from "react-icons/fa";
 import { TbMailOpenedFilled } from "react-icons/tb";
-import Footer from '../common/Footer';
-import Navbar from '../common/Navbar';
+import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
  
 const AdsDetails = () => {
   return (
