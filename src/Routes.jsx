@@ -9,6 +9,7 @@ import Register from './pages/Auth/Register';
 import Login from './pages/Auth/Login';
 import AdsDetails from './pages/AdsDetails';
 import Home from './pages/Home';
+import ProtectedRoute from './components/ProtectedRoute'; // Import ProtectedRoute
 
 const AppRoutes = () => {
   return (
@@ -19,9 +20,15 @@ const AppRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/ads-details" element={<AdsDetails />} />
 
-
       {/* Protected Routes */}
-      <Route path="/dashboard" element={<Dashboard />}>
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<MyAccount />} /> {/* Default route */}
         <Route path="my-account" element={<MyAccount />} />
         <Route path="profile" element={<Profile />} />

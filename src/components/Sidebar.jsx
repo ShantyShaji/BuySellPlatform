@@ -1,17 +1,26 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
+import { useAuth } from '../context/AuthContext';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const location = useLocation();
 
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
   // Function to check if a tab is active
   const isActive = (path) => {
-    // Highlight "My Account" by default when on root route
-    if (location.pathname === '/dashboard' && path === '/my-account') {
+    
+    if (location.pathname === '/dashboard' && path === '/dashboard/my-account') {
       return true;
     }
     return location.pathname === path;
+  };
+
+  const handleLogout = () => {
+    logout();  
+    navigate('/');  
   };
 
   return (
@@ -28,50 +37,47 @@ const Sidebar = ({ isOpen, onClose }) => {
 
       {/* Navigation Links with dynamic styling */}
       <Link
-        to="/my-account"
+        to="/dashboard/my-account"
         className={`block py-2 px-4 rounded-3xl ${
-          isActive('/my-account') ? 'bg-black text-white' : 'text-gray-700 hover:text-black'
+          isActive('/dashboard/my-account') ? 'bg-black text-white' : 'text-gray-700 hover:text-black'
         }`}
         onClick={onClose} // Close sidebar on click
       >
         My Account
       </Link>
       <Link
-        to="/profile"
+        to="/dashboard/profile"
         className={`block py-2 px-4 rounded-3xl ${
-          isActive('/profile') ? 'bg-black text-white' : 'text-gray-700 hover:text-black'
+          isActive('/dashboard/profile') ? 'bg-black text-white' : 'text-gray-700 hover:text-black'
         }`}
         onClick={onClose} // Close sidebar on click
       >
         Profile
       </Link>
       <Link
-        to="/ads"
+        to="/dashboard/ads"
         className={`block py-2 px-4 rounded-3xl ${
-          isActive('/ads') ? 'bg-black text-white' : 'text-gray-700 hover:text-black'
+          isActive('/dashboard/ads') ? 'bg-black text-white' : 'text-gray-700 hover:text-black'
         }`}
         onClick={onClose} // Close sidebar on click
       >
         Ads
       </Link>
       <Link
-        to="/post-ad"
+        to="/dashboard/post-ad"
         className={`block py-2 px-4 rounded-3xl ${
-          isActive('/post-ad') ? 'bg-black text-white' : 'text-pink-600 hover:text-pink-800 font-semibold'
+          isActive('/dashboard/post-ad') ? 'bg-black text-white' : 'text-pink-600 hover:text-pink-800 font-semibold'
         }`}
-        onClick={onClose} // Close sidebar on click
+        onClick={onClose}  
       >
         Post Ad
       </Link>
-      <Link
-        to="/logout"
-        className={`block py-2 px-4 rounded-3xl ${
-          isActive('/logout') ? 'bg-black text-white' : 'text-gray-700 hover:text-black'
-        }`}
-        onClick={onClose} // Close sidebar on click
+      <button
+        className="block py-2 px-4 rounded-3xl text-gray-700 hover:text-black w-full text-left"
+        onClick={handleLogout}  
       >
         Logout
-      </Link>
+      </button>
     </div>
   );
 };
