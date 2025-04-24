@@ -64,7 +64,7 @@ const Profile = () => {
 
   return (
     <div className="bg-white rounded-xl shadow p-6">
-      <div className="max-w-2xl mx-auto p-8">
+      <div className="max-w-2xl mx-auto p-8 lg:h-[60vh] overflow-y-auto">
         <form className="space-y-6" onSubmit={handleSubmit}>
           {[
             { label: 'Name', name: 'name' },

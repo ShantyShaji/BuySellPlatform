@@ -52,7 +52,7 @@ const Login = () => {
                             <strong>Listbnb</strong> a Largest Classified Listing Marketplace offers perfect<br /> Ads classifieds...
                         </p>
 
-                        <h2 className="text-lg font-semibold text-center">Login To Your Account<br /> Account</h2>
+                        <h2 className="text-lg font-semibold text-center">Login To Your<br /> Account</h2>
 
                         <form className=" space-y-3  w-[90%] lg:w-[55%]"onSubmit={handleSubmit}>
 

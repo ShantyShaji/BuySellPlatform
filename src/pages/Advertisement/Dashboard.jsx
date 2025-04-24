@@ -5,7 +5,7 @@ import Navbar from '../../common/Navbar'; // Import Navbar
 import Footer from '../../common/Footer'; // Import Footer
 import { HiMenuAlt3 } from 'react-icons/hi';
 
-const Home = () => {
+const Dashboard = () => {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -57,4 +57,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Dashboard;
