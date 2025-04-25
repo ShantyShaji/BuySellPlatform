@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Grid, List } from 'lucide-react';
 import { Eye } from 'lucide-react'; // Import the Eye icon
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
 
 const DailyThingsSection = () => {
   return (
@@ -42,72 +44,43 @@ const DailyThingsSection = () => {
 
 const Home = () => {
   const [viewMode, setViewMode] = useState('grid');
+  const [ads, setAds] = useState([]); // State to store advertisements
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { apiKey } = useAuth(); // Access the API key from AuthContext
 
-  const products = [
-    {
-      id: 1,
-      name: "TV Pro Smart Tv Box 8/128gb Best Price: Urgent",
-      price: 499,
-      location: "Paris",
-      timeAgo: "1 day ago",
-      image: "/ads1.png",
-    },
-    {
-      id: 2,
-      name: "HP Envy x360 Laptop - Core i7, 16GB RAM, 512GB SSD",
-      price: 499,
-      location: "Paris",
-      timeAgo: "1 day ago",
-      image: "/ads2.png",
-      featured: true,
-    },
-    {
-      id: 3,
-      name: "Sony 55\" 4K Smart LED TV - Excellent Picture Quality",
-      price: 499,
-      location: "Paris",
-      timeAgo: "1 day ago",
-      image: "/ads3.png",
-    },
-    {
-      id: 4,
-      name: "Sony 55\" 4K Smart LED TV - Excellent Picture Quality",
-      price: 499,
-      location: "Paris",
-      timeAgo: "1 day ago",
-      image: "/ads3.png",
-    },
-    {
-      id: 5,
-      name: "Apple macbook pro 15.6 inch monitor laptop",
-      price: 499,
-      location: "Paris",
-      timeAgo: "1 day ago",
-      image: "/ads4.png",
-    },
-    {
-      id: 6,
-      name: "Panasonic Split Air Conditioner - 1.5 Ton, Inverter Technology",
-      price: 499,
-      location: "Paris",
-      timeAgo: "1 day ago",
-      image: "/ads6.png",
-    },
-    {
-      id: 7,
-      name: "Whirlpool Front Load Washing Machine - 7kg Capacity",
-      price: 499,
-      location: "Paris",
-      timeAgo: "1 day ago",
-      image: "/ad7.png",
-    },
-     
-  ];
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const response = await axios.get('https://ads.planetmedia.app/api/advertisements', {
+          headers: {
+            'x-api-key': apiKey, // Pass the API key in the headers
+          },
+        });
+        setAds(response.data); // Store the fetched ads in state
+      } catch (err) {
+        console.error('Error fetching advertisements:', err);
+        setError('Failed to load advertisements. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handleViewDetails = () => {
-    navigate(`/ads-details`);  
+    fetchAds();
+  }, [apiKey]);
+
+  const handleViewDetails = (id) => {
+    navigate(`/ads-details/${id}`);  
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -125,7 +98,7 @@ const Home = () => {
         </div>
 
         <div className="flex justify-between items-center mb-4">
-          <div className="text-pink-500 font-medium">{products.length} Items</div>
+          <div className="text-pink-500 font-medium">{ads.length} Items</div>
           <div className="flex items-center gap-2">
             <button
               className={`rounded-full p-2 ${
@@ -146,57 +119,44 @@ const Home = () => {
           </div>
         </div>
 
-        
-        <div
-          className={`grid ${
-            viewMode === 'grid'
-              ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
-              : 'grid-cols-1'
-          } gap-4 mb-10`}
-        >
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="relative bg-white rounded-lg overflow-hidden shadow border border-gray-200 hover:border-pink-500 transition duration-300 group"
-            >
+<div
+  className={`grid ${
+    viewMode === 'grid'
+      ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+      : 'grid-cols-1'
+  } gap-4 mb-10`}
+>
+  {ads.map((ad) => (
+    <div
+      key={ad.id}
+      className="relative bg-white rounded-lg overflow-hidden shadow border border-gray-200 hover:border-pink-500 transition duration-300 group"
+    >
+      {/* Main Product Image */}
+      <div className="h-48 overflow-hidden">
+        <img
+          src={ad.image || 'https://via.placeholder.com/150'} // Use ad image or placeholder
+          alt={ad.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+        />
+      </div>
 
-              {/* Main Product Image */}
-              <div className="h-48 overflow-hidden">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
-                />
-              </div>
-
-              {/* Card Content */}
-              <div className="p-3">
-                <div className="flex justify-between text-xs text-gray-500 mb-1">
-                  <span>{product.location}</span>
-                  <span>{product.timeAgo}</span>
-                </div>
-                <h3 className="text-sm font-medium mb-2 line-clamp-2 h-10">
-                  {product.name}
-                </h3>
-                <div className="flex justify-between items-center">
-                  <span className="text-pink-500 font-bold">
-                    ${product.price}
-                  </span>
-                  <button 
-                   onClick={() => handleViewDetails()}
-                  className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-300 group-hover:border-pink-500 group-hover:bg-pink-500 group-hover:text-white transition duration-300">
-                    <Eye size={18} className="group-hover:text-white" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Hot Deals Button */}
-              <button className="absolute top-2 right-2 px-4 py-2 bg-pink-500 text-white text-sm font-semibold rounded-full opacity-0 group-hover:opacity-100 transition duration-300">
-                EDIT AD
-              </button>
-            </div>
-          ))}
+      {/* Card Content */}
+      <div className="p-3">
+        <h3 className="text-sm font-medium mb-2 line-clamp-2 h-10">{ad.title}</h3>
+        <p className="text-xs text-gray-500 mb-1">{ad.description}</p>
+        <div className="flex justify-between items-center">
+          <span className="text-pink-500 font-bold">${ad.price}</span>
+          <button
+            onClick={() => handleViewDetails(ad.id)} // Navigate to details page
+            className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-300 group-hover:border-pink-500 group-hover:bg-pink-500 group-hover:text-white transition duration-300"
+          >
+            <Eye size={18} className="group-hover:text-white" />
+          </button>
         </div>
+      </div>
+    </div>
+  ))}
+</div>
       </div>
 
       {/* Footer */}
@@ -206,7 +166,6 @@ const Home = () => {
 };
 
 export default Home;
-
 
 
 

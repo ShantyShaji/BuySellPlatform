@@ -43,7 +43,7 @@ const Navbar = () => {
             Sign In
           </Link>
           <Link 
-            to="/create-ad" 
+            
             className="bg-[#F50963] hover:bg-pink-700 text-white px-5 py-2 rounded-3xl font-medium flex items-center"
           >
             Post Your Ad

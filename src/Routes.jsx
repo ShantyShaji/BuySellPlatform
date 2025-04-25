@@ -18,7 +18,7 @@ const AppRoutes = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/" element={<Home />} />
-      <Route path="/ads-details" element={<AdsDetails />} />
+      <Route path="/ads-details/:id" element={<AdsDetails />} />
 
       {/* Protected Routes */}
       <Route
