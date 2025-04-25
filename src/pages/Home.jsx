@@ -3,6 +3,7 @@ import { Grid, List } from 'lucide-react';
 import { Eye } from 'lucide-react'; // Import the Eye icon
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { useNavigate } from 'react-router-dom';
 
 const DailyThingsSection = () => {
   return (
@@ -41,6 +42,7 @@ const DailyThingsSection = () => {
 
 const Home = () => {
   const [viewMode, setViewMode] = useState('grid');
+  const navigate = useNavigate();
 
   const products = [
     {
@@ -102,6 +104,10 @@ const Home = () => {
     },
      
   ];
+
+  const handleViewDetails = () => {
+    navigate(`/ads-details`);  
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -176,7 +182,9 @@ const Home = () => {
                   <span className="text-pink-500 font-bold">
                     ${product.price}
                   </span>
-                  <button className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-300 group-hover:border-pink-500 group-hover:bg-pink-500 group-hover:text-white transition duration-300">
+                  <button 
+                   onClick={() => handleViewDetails()}
+                  className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-300 group-hover:border-pink-500 group-hover:bg-pink-500 group-hover:text-white transition duration-300">
                     <Eye size={18} className="group-hover:text-white" />
                   </button>
                 </div>
