@@ -71,7 +71,7 @@ const Home = () => {
   }, [apiKey]);
 
   const handleViewDetails = (id) => {
-    navigate(`/ads-details/${id}`);  
+    navigate(`/ads-details/${id}`);
   };
 
   if (loading) {
@@ -101,17 +101,15 @@ const Home = () => {
           <div className="text-pink-500 font-medium">{ads.length} Items</div>
           <div className="flex items-center gap-2">
             <button
-              className={`rounded-full p-2 ${
-                viewMode === 'grid' ? 'bg-gray-800 text-white' : 'bg-gray-200'
-              }`}
+              className={`rounded-full p-2 ${viewMode === 'grid' ? 'bg-gray-800 text-white' : 'bg-gray-200'
+                }`}
               onClick={() => setViewMode('grid')}
             >
               <Grid size={18} />
             </button>
             <button
-              className={`rounded-full p-2 ${
-                viewMode === 'list' ? 'bg-gray-800 text-white' : 'bg-gray-200'
-              }`}
+              className={`rounded-full p-2 ${viewMode === 'list' ? 'bg-gray-800 text-white' : 'bg-gray-200'
+                }`}
               onClick={() => setViewMode('list')}
             >
               <List size={18} />
@@ -119,44 +117,43 @@ const Home = () => {
           </div>
         </div>
 
-<div
-  className={`grid ${
-    viewMode === 'grid'
-      ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
-      : 'grid-cols-1'
-  } gap-4 mb-10`}
->
-  {ads.map((ad) => (
-    <div
-      key={ad.id}
-      className="relative bg-white rounded-lg overflow-hidden shadow border border-gray-200 hover:border-pink-500 transition duration-300 group"
-    >
-      {/* Main Product Image */}
-      <div className="h-48 overflow-hidden">
-        <img
-          src={ad.image || 'https://via.placeholder.com/150'} // Use ad image or placeholder
-          alt={ad.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
-        />
-      </div>
+        <div
+          className={`grid ${viewMode === 'grid'
+              ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+              : 'grid-cols-1'
+            } gap-4 mb-10`}
+        >
+          {ads.map((ad) => (
+            <div
+              key={ad.id}
+              className="relative bg-white rounded-lg overflow-hidden shadow border border-gray-200 hover:border-pink-500 transition duration-300 group"
+            >
+              {/* Main Product Image */}
+              <div className="h-48 overflow-hidden">
+                <img
+                  src={ad.image || 'https://via.placeholder.com/150'} // Use ad image or placeholder
+                  alt={ad.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                />
+              </div>
 
-      {/* Card Content */}
-      <div className="p-3">
-        <h3 className="text-sm font-medium mb-2 line-clamp-2 h-10">{ad.title}</h3>
-        <p className="text-xs text-gray-500 mb-1">{ad.description}</p>
-        <div className="flex justify-between items-center">
-          <span className="text-pink-500 font-bold">${ad.price}</span>
-          <button
-            onClick={() => handleViewDetails(ad.id)} // Navigate to details page
-            className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-300 group-hover:border-pink-500 group-hover:bg-pink-500 group-hover:text-white transition duration-300"
-          >
-            <Eye size={18} className="group-hover:text-white" />
-          </button>
+              {/* Card Content */}
+              <div className="p-3">
+                <h3 className="text-sm font-medium mb-2 line-clamp-2 h-10">{ad.title}</h3>
+                <p className="text-xs text-gray-500 mb-1">{ad.description}</p>
+                <div className="flex justify-between items-center">
+                  <span className="text-pink-500 font-bold">${ad.price}</span>
+                  <button
+                    onClick={() => handleViewDetails(ad.id)} // Navigate to details page
+                    className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-300 group-hover:border-pink-500 group-hover:bg-pink-500 group-hover:text-white transition duration-300"
+                  >
+                    <Eye size={18} className="group-hover:text-white" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
-    </div>
-  ))}
-</div>
       </div>
 
       {/* Footer */}
@@ -169,4 +166,3 @@ export default Home;
 
 
 
- 

@@ -9,7 +9,7 @@ import Register from './pages/Auth/Register';
 import Login from './pages/Auth/Login';
 import AdsDetails from './pages/AdsDetails';
 import Home from './pages/Home';
-import ProtectedRoute from './components/ProtectedRoute'; // Import ProtectedRoute
+import ProtectedRoute from './components/ProtectedRoute';
 
 const AppRoutes = () => {
   return (

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
+import AdDetailsModal from './AdDetailsModal'; // Import the modal component
+import { Trash } from 'lucide-react'; // Import a delete icon
 
 const Ads = () => {
   const [ads, setAds] = useState([]); // State to store advertisements
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const { apiKey } = useAuth(); // Access the API key from AuthContext
+  const [selectedAd, setSelectedAd] = useState(null); // State to store the selected ad for the modal
+  const { apiKey, jwt } = useAuth(); // Access the API key and JWT from AuthContext
 
   useEffect(() => {
     const fetchAds = async () => {
@@ -14,9 +17,13 @@ const Ads = () => {
         const response = await axios.get('https://ads.planetmedia.app/api/advertisements', {
           headers: {
             'x-api-key': apiKey, // Pass the API key in the headers
+            Authorization: `Bearer ${jwt}`, // Pass the JWT in the headers
           },
         });
-        setAds(response.data); // Store the fetched ads in state
+
+        // Filter ads with owner.id = 522
+        const filteredAds = response.data.filter((ad) => ad.owner?.id === 522);
+        setAds(filteredAds); // Store only the filtered ads
       } catch (err) {
         console.error('Error fetching advertisements:', err);
         setError('Failed to load advertisements. Please try again.');
@@ -26,7 +33,35 @@ const Ads = () => {
     };
 
     fetchAds();
-  }, [apiKey]);
+  }, [apiKey, jwt]);
+
+  const handleViewAd = (ad) => {
+    setSelectedAd(ad); // Set the selected ad for the modal
+  };
+
+  const handleCloseModal = () => {
+    setSelectedAd(null); // Close the modal
+  };
+
+  const handleDeleteAd = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this ad?')) return;
+
+    try {
+      await axios.delete(`https://ads.planetmedia.app/api/advertisements/${id}`, {
+        headers: {
+          'x-api-key': apiKey, // Pass the API key in the headers
+          Authorization: `Bearer ${jwt}`, // Pass the JWT in the headers
+        },
+      });
+
+      // Remove the deleted ad from the state
+      setAds((prevAds) => prevAds.filter((ad) => ad.id !== id));
+      alert('Advertisement deleted successfully!');
+    } catch (err) {
+      console.error('Error deleting advertisement:', err);
+      alert('Failed to delete advertisement. Please try again.');
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -37,7 +72,7 @@ const Ads = () => {
   }
 
   return (
-    <div className="flex flex-col gap-5 h-[70vh] overflow-x-hidden lg:overflow-y-auto">
+    <div className="flex flex-col gap-5 h-[67vh] overflow-x-hidden lg:overflow-y-auto">
       {/* Listings */}
       {ads.map((ad) => (
         <div
@@ -57,15 +92,29 @@ const Ads = () => {
             </div>
           </div>
           <div className="flex gap-3">
-            <button className="px-4 py-2 border border-gray-300 rounded-full text-sm hover:bg-gray-100">
+            <button
+              className="px-4 py-2 border border-gray-300 rounded-full text-sm hover:bg-gray-100"
+              onClick={() => handleViewAd(ad)} // Open the modal with the selected ad
+            >
               View
             </button>
-            <button className="px-4 py-2 bg-pink-600 text-white rounded-full text-sm hover:bg-pink-700">
+            <button
+              className="px-4 py-2 bg-pink-600 text-white whitespace-nowrap rounded-full text-sm hover:bg-pink-700"
+            >
               Edit Ad
+            </button>
+            <button
+              className="p-3 bg-gray-100 text-[#FF0000] shadow-md rounded-full text-sm hover:bg-gray-200 flex items-center gap-2"
+              onClick={() => handleDeleteAd(ad.id)} // Delete the ad
+            >
+              <Trash size={16} />
             </button>
           </div>
         </div>
       ))}
+
+      {/* Ad Details Modal */}
+      {selectedAd && <AdDetailsModal ad={selectedAd} onClose={handleCloseModal} />}
     </div>
   );
 };
