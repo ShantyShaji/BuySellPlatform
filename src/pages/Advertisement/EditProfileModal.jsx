@@ -51,7 +51,7 @@ const EditProfileModal = ({ profile, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 h-screen bg-black/10 backdrop-blur-sm flex items-center justify-center z-50">
+    <div className="fixed inset-0 h-screen bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
 
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md h-[70vh] lg:h-auto overflow-y-auto ">
         <h3 className="text-lg font-bold mb-4">Edit Profile</h3>
